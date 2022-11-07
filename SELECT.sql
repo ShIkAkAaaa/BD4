@@ -17,7 +17,7 @@ GROUP BY title;
 SELECT nickname FROM artist a 
 JOIN artist_album aa ON a.id = aa.artist_id
 JOIN album a2 ON aa.album_id = a2.id 
-WHERE year_ != 2020;
+WHERE title != (SELECT title FROM album a WHERE year_ = 2020);
 
 SELECT c.name_ FROM collection c 
 JOIN song s ON s.collection_id = c.id 
@@ -52,5 +52,9 @@ SELECT title, count(as2.album_id)  FROM album a
 JOIN album_song as2 ON as2.album_id = a.id 
 JOIN song s ON s.album_id = a.id 
 GROUP BY title, as2.album_id
-ORDER BY count(as2.album_id)
-LIMIT 2;
+HAVING count(as2.album_id) = (SELECT count(as2.album_id)  FROM album a 
+                              JOIN album_song as2 ON as2.album_id = a.id 
+                              JOIN song s ON s.album_id = a.id 
+                              GROUP BY as2.album_id 
+                              ORDER BY count(as2.album_id)
+                              LIMIT 1);
