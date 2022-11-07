@@ -52,7 +52,7 @@ SELECT title, count(as2.album_id)  FROM album a
 JOIN album_song as2 ON as2.album_id = a.id 
 JOIN song s ON s.album_id = a.id 
 GROUP BY title, as2.album_id
-HAVING count(as2.album_id) = (SELECT count(as2.album_id)  FROM album a 
+HAVING count(as2.album_id) = (SELECT count(as2.album_id) FROM album a 
                               JOIN album_song as2 ON as2.album_id = a.id 
                               JOIN song s ON s.album_id = a.id 
                               GROUP BY as2.album_id 
